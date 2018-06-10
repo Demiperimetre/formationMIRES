@@ -1,0 +1,119 @@
+---
+title: "Manipulation et représentation des réseaux"
+author: "Pierre Barbillon & Mathieu Thomas"
+date: "11 juin 2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(igraph)
+```
+
+## Package R
+
+
+- Utilisation du package R `igraph` dans cette présentation.
+
+- On peut également utiliser `sna`.
+
+- Exemple du club de karaté dont les données sont disponibles dans le package `sand`.
+ 
+
+
+#Cas du réseau fourni comme une liste de liens
+
+## Chargement des données
+
+```{r}
+edges = read.table("Karate_edge.csv")
+head(edges)
+```
+
+
+## Transformation en objet igraph
+
+```{r}
+library(igraph)
+Gkar = graph_from_edgelist(as.matrix(edges),directed=FALSE)
+Gkar
+```
+
+
+## Représentation graphique
+
+```{r}
+plot(Gkar)
+```
+
+
+## Autres représentations
+
+```{r}
+plot(Gkar,layout=layout.circle)
+```
+
+## Autres représentations
+
+```{r}
+plot(Gkar, layout=layout.random)
+```
+
+
+# Matrice d'adjacence
+
+## Obtenir la matrice d'adjacence
+
+```{r}
+Akar = as.matrix(get.adjacency(Gkar)) 
+Akar[1:5,1:5]
+```
+
+## Construire le réseau à partir de la matrice d'adjacence
+
+```{r}
+Gkar2 = graph_from_adjacency_matrix(Akar,mode = "undirected")
+plot(Gkar2)
+```
+
+
+# Statistiques résumées
+
+## Degré 
+
+```{r,eval=FALSE}
+degree(Gkar)
+rowSums(Akar)
+colSums(Akar)
+```
+```{r,echo=FALSE}
+degree(Gkar)
+```
+
+
+
+
+# Covariables
+
+## Chargement
+
+```{r}
+cov = read.table("Karate_ego.csv",row.names = 1)
+names(cov)=c("faction","names","numero","couleur","age")
+head(cov)
+```
+
+## Représentation
+
+```{r}
+plot(Gkar, vertex.color = cov$couleur,vertex.label=as.character(cov$numero))
+```
+
+## Liens entre degré et covariables
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(degree(Gkar)~cov$faction)
+plot(degree(Gkar)~cov$age)
+```
+

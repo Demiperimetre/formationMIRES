@@ -17,7 +17,7 @@
 \usetikzlibrary{calc,shapes,backgrounds,arrows,automata,shadows,positioning}
 
 \usepackage{float}
-\usepackage[english]{babel}
+\usepackage[french]{babel}
 \usepackage{multicol}
 \usepackage[utf8]{inputenc}
 \usepackage{times}
@@ -56,11 +56,11 @@
 
 
 \title
-{Probabilistic models for ecological networks}%titre premiere page
+{I: Introduction aux réseaux et à leur analyse}%titre premiere page
 
 %\subtitle{Presentation Soustitre}sp
 
-\author{Sophie Donnet,  Pierre Barbillon \& Avner Bar-Hen}
+\author{}
 
 
 
@@ -73,7 +73,8 @@
 %  \end{itemize}
 % 
 % \bigskip
-14/06/17}
+Formation Analyse des réseaux\\
+MIRES }
 
 \subject{Séminaire}
 
@@ -101,21 +102,21 @@
 \begin{frame}
 \titlepage
 
-\vspace{-.5cm}
-\includegraphics[scale=.1]{plots/AgroParisTech_-_logo.PNG}
-\vspace{-1.2cm}
-\begin{flushright}
- \includegraphics[scale=.1]{plots/INRA_logo.jpg}
- \end{flushright}
+% \vspace{-.5cm}
+% \includegraphics[scale=.1]{plots/AgroParisTech_-_logo.PNG}
+% \vspace{-1.2cm}
+% \begin{flushright}
+%  \includegraphics[scale=.1]{plots/INRA_logo.jpg}
+%  \end{flushright}
 
 \end{frame}
 
 
 
-\section{Introduction, why probabilistic models for networks ?}
+\section{Premiers exemples et terminologie}
 
 \begin{frame}
-\frametitle{Network data}
+\frametitle{Données relationnelles}
 
 \begin{center}
  \includegraphics[scale=.4]{plots/image_SBM.png}
@@ -124,19 +125,18 @@
 
 \bigskip
 
-
-Networks can account for 
+Les réseaux peuvent représenter des
 \begin{itemize}
-\item Food web,
-\item Co-existence networks,
-\item Host-parasite interactions,
-\item Plant-pollinator interactions,
+\item relations sociales (amitié, connaissance, professionnelles),
+\item échanges,
+\item inventaires,
 \item ...
 \end{itemize}
 
 \bigskip
 
-Networks may be or not bipartite: Interactions between nodes belonging to the same or to different functional group(s).
+Les réseaux peuvent \^etre ou non bipartites :  les interactions peuvent avoir lieu exclusivement entre des n\oe uds appartenant à deux groupes fonctionnels différents.
+
 
 %illustration reseau
 
@@ -144,25 +144,25 @@ Networks may be or not bipartite: Interactions between nodes belonging to the sa
 
 
 \begin{frame}
- \frametitle{Terminology}
+ \frametitle{Terminologie}
  
- A network consists in:
+ Un réseau est constitué de :
  \begin{itemize}
-  \item nodes/vertices which reprensent individuals / species which may interact or not,
-  \item links/edges/connections which stand for an interaction between a pair of nodes / dyad.
+  \item n\oe uds / sommets qui représentent des individus / acteurs qui interagissent ou non,
+  \item liens / ar\^etes / connexions qui représentent les interactions entre les paires de n\oe uds (dyade).
   
  \end{itemize}
 
 \bigskip
  
- A network may be 
- \begin{itemize}
-  \item directed / oriented (e.g. food web...),
-  \item symmetric / undirected (e.g. coexistence network),
-  \item with or without loops.
+Un réseau peut \^etre 
+\begin{itemize}
+  \item dirigé / orienté (e.g. échange),
+  \item symétrique / non-dirigé (e.g. amitié),
+  \item avec ou sans boucle.
  \end{itemize}
 
-This distinction only makes sense for simple networks (not bipartite).
+ Cette distinction a un sens uniquement pour les réseaux simples (pas bipartite).
  
  
 \end{frame}
@@ -170,7 +170,7 @@ This distinction only makes sense for simple networks (not bipartite).
 
 
 \begin{frame}
- \frametitle{Available data and goal}
+ \frametitle{Données disponibles et but}
  
  
 \begin{center}
@@ -178,15 +178,15 @@ This distinction only makes sense for simple networks (not bipartite).
 \end{center}
 
 \bigskip
-\textbf{Available data:}
+\textbf{Données:}
 \begin{itemize}
- \item  the network provided as:
+ \item  Le réseau est fourni par:
 \begin{itemize}
- \item an adjacency matrix (for simple network) or an incidence matrix (for bipartite network),
- \item a list of pair of nodes / dyads which are linked.
+ \item une matrice d'adjacence (réseau simple) ou une matrice d'incidence (réseau bipartite),
+ \item une liste de dyades connectés (c'est-à-dire toutes les ar\^etes). Il est sous entendu que les dyades non mentionnés ne sont pas connectées...
 \end{itemize}
 
-\item some additional covariates on nodes, dyads which can account for sampling effort.
+\item des covariables additionnelles sur les n\oe uds ou sur les dyades.
  \end{itemize}
 
 
@@ -194,12 +194,12 @@ This distinction only makes sense for simple networks (not bipartite).
 \bigskip
 
 
-\textbf{Goal:}
+\textbf{Buts:}
 \begin{itemize}
- \item Unraveling / describing / modeling the network topology. 
- \item Discovering particular structure of interaction between some subsets of nodes.
- \item Understanding network heterogeneity.
- \item Not inferring the network !
+ \item Révéler / décrire / modéliser la topologie du réseau. 
+ \item Découvrir des structures d'interactions particulières entre des sous-parties du réseau.
+ \item Comprendre l'hétérogénéité du réseau.
+ \item Pas d'inférer le réseau!
  \end{itemize}
 
 
@@ -209,11 +209,12 @@ This distinction only makes sense for simple networks (not bipartite).
 
 
 \begin{frame}
-\frametitle{Network representation and adjacency matrix}
+\frametitle{Représentation du réseau}
 
  \begin{columns}
- \begin{column}{.45\paperwidth}
-$$X=\left(
+ \begin{column}{.35\paperwidth}
+Matrice d'adjacence : 
+ $$X=\left(
 \begin{array}{rrrrr}
 0 & 1 & 0 & 0 \\ 
 1 & 0 & 1 & 1 \\ 
@@ -222,6 +223,19 @@ $$X=\left(
 \end{array}\right)
 $$
 \end{column}
+
+\begin{column}{.2\paperwidth}
+Liste d'ar\^etes (si dirigé attention à l'ordre...)
+$$\left(
+\begin{array}{rr}
+1 & 2\\ 
+1 & 4\\ 
+2 & 3 \\ 
+2 & 4\\ 
+\end{array}\right)
+$$ 
+\end{column}
+
 
 \begin{column}{.5\paperwidth}
 
@@ -232,28 +246,30 @@ $$
 \end{columns}
 
 \begin{itemize}
-\item $n$ rows and $n$ columns,
-\item symmetric or not.
+\item $n$ lignes et $n$ colonnes,
+\item réseau non dirigé = matrice d'adjacence symétrique.
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}
-\frametitle{Bipartite network and incidence matrix}
+\frametitle{Réseau bipartite}
  \begin{columns}
- \begin{column}{.45\paperwidth}
-$$X=\left(
+ \begin{column}{.35\paperwidth}
+Matrice d'incidence
+ $$X=\left(
 \begin{array}{rrrrrrr}
-1 &   0 &   1 &   0 &   0 &   0 &   1 \\ 
-0 &   0 &   0 &   0 &   0 &   0 &   0 \\ 
-0 &   0 &   0 &   1 &   0 &   1 &   0 \\ 
-0 &   1 &   0 &   0 &   1 &   1 &   0 \\ \end{array}\right)
+  0 &   1 &   1 &   0 &   1 &   0 &   0 \\ 
+  0 &   0 &   0 &   1 &   0 &   1 &   1 \\ 
+  0 &   0 &   0 &   0 &   1 &   0 &   0 \\ 
+  0 &   1 &   0 &   0 &   0 &   0 &   1 \\ 
+\end{array}\right)
 $$
 
 
 \begin{itemize}
- \item n rows and m columns, rectangular matrix.
- \item corresponding adjacency matrix $(n+m)\times(n+m)$:
+ \item n lignes et m colonnes, matrice rectangulaire.
+ \item matrice d'adjacence correspondante $(n+m)\times(n+m)$:
  $$
  \left(
  \begin{array}{rr}
@@ -264,13 +280,30 @@ $$
  $$
 \end{itemize}
 
-
-
 \end{column}
 
-\begin{column}{.5\paperwidth}
+ \begin{column}{.2\paperwidth}
+  Liste d'ar\^etes : 
+ $$\left(
+ \begin{array}{rr}
+ A1 & B2 \\ 
+ A1 & B3 \\ 
+ A1 & B5 \\ 
+ A2 & B4 \\ 
+ A2 & B6 \\ 
+ A2 & B7 \\ 
+ A3 & B5 \\ 
+ A4 & B2 \\ 
+ A4 & B7 \\   
+ \end{array}
+ \right)$$ 
+  
+ \end{column}
 
-\includegraphics[scale=.3]{plots/graphe_bipartite.pdf}
+
+\begin{column}{.3\paperwidth}
+
+\includegraphics[scale=.25]{plots/graphe_bipartite.pdf}
 
 \end{column}
 
@@ -283,37 +316,99 @@ $$
 
 
 
+\section{Représentation des réseaux}
+
 \begin{frame}
-\frametitle{Some common traits studied on networks}
+ \frametitle{Différentes représentations possibles : au hasard}
+ 
+ \begin{center}
+ \includegraphics[scale=.3]{plots/karateRandom1.pdf}
+  \includegraphics[scale=.3]{plots/karateRandom2.pdf}
+  
+ \end{center}
+ 
+\end{frame}
+
+
+
+\begin{frame}
+ \frametitle{Fruchterman–Reingold}
+ Ar\^etes de longueurs à peu près égales et peu de croisement. Mais représentations différentes à chaque appel.
+ 
+ 
+  \begin{center}
+ \includegraphics[scale=.3]{plots/karateFR1.pdf}
+  \includegraphics[scale=.3]{plots/karateFR2.pdf}
+  
+ \end{center}
+ 
+\end{frame}
+
+
+
+
+\begin{frame}
+ \frametitle{Autres représentations}
+ 
+ \begin{columns}
+  \begin{column}{.45\paperwidth}
+   Graphe dirigé
+   
+   \centering
+     \includegraphics[scale=.3]{plots/arbredirige.pdf}
+  \end{column}
+ \begin{column}{.45\paperwidth}
+   Graphe bipartite
+   
+    \centering
+     \includegraphics[scale=.3]{plots/graphe_bipartite.pdf}
+  \end{column}
+ \end{columns}
+
+ 
+\end{frame}
+
+
+
+
+\section{Statistiques résumées simples}
+
+\begin{frame}
+\frametitle{Quelques statistiques résumées simples}
 
 
 % ref a mettre et sans doute à partager en plusieurs slides à la siute
 \begin{itemize}
 
-\item Degree distribution, can be viewed as a measure of heterogeneity,
-\item Nestedness: a network is said to be nested when its nodes that have the smallest degree, are connected to nodes with the highest degree,
+\item Degrés, sortant ou entrant si dirigés :
+\begin{eqnarray*}
+ \overrightarrow{D}_i&=&\sum_j X_{ij}\\
+ \overleftarrow{D}_j&=&\sum_i X_{ij}
+\end{eqnarray*}
+
+\item Nestedness: si les n\oe uds de plus petit degré se connectent aux n\oe uds de plus haut degré,
 \textcolor{blue}{Rodríguez-Gironés \& Santamaria (2006)}
 
-\item Betweenness centrality: for a node, numbers of shortest paths between any pair of nodes passing through this node.
+\item Centralité (betweenness): pour un n\oe ud, nombres de chemins les plus courts entre n'importe quelle paire de n\oe uds passant par ce n\oe ud.
 \textcolor{blue}{Freeman (1979)}
 
-\item Modularity: is a measure for a given partition of its tendency of favoring intra-connection over inter-connection.  
-$\Rightarrow$ Finding the best partition with respect to modularity criterion. 
+\item Modularité: mesure pour une partition de sa tendance à favoriser l'intra-connexion par rapport à l'inter-connexion.
+$\Rightarrow$ Recherche de la meilleure partition. 
 \textcolor{blue}{Clauset, Newman \& Moore (2004)}
 \end{itemize}
 
 
 \bigskip
 
-All this criterion shall be adapted to:
+Critères à adapter aux
 \begin{itemize}
- \item directed network,
- \item bipartite network.
+ \item réseaux dirigés,
+ \item réseaux bipartites.
 \end{itemize}
 
 \bigskip
 
-\textcolor{blue}{R packages: igraph, sna, vegan.} 
+%\textcolor{blue}{R packages: igraph, sna, vegan.} 
 
 
 \end{frame}
@@ -328,8 +423,8 @@ All this criterion shall be adapted to:
 \end{center}
 
 \begin{itemize}
- \item $n=106$ species / nodes,
- \item density of edges: $12.1\%$.
+ \item $n=106$ espèces / n\oe uds,
+ \item densité: $12.1\%$.
 \end{itemize}
 
 
@@ -339,7 +434,7 @@ All this criterion shall be adapted to:
 
 
 \begin{frame}
- \frametitle{Degree distribution}
+ \frametitle{Distribution des degrés}
  
  \begin{center}
 \includegraphics[scale=.3]{plots/chilean_outdeg.pdf}  
@@ -358,9 +453,9 @@ All this criterion shall be adapted to:
 
 
  \begin{itemize}
-  \item more generally used on incidence matrices,
-  \item significance of the nestedness index computed by random permutations of the matrix,
-  \item this food web is found to be nested.
+  \item plus généralement sur les graphes bipartites,
+%  \item significance of the nestedness index computed by random permutations of the matrix,
+  \item ce réseau est trouvé embo\^ité.
  
  \end{itemize}
 
@@ -368,7 +463,7 @@ All this criterion shall be adapted to:
 
 
 \begin{frame}[fragile]
- \frametitle{Betweenness}
+ \frametitle{Centralité (Betweenness)}
  
  \begin{center}
   \includegraphics[scale=.3]{plots/chilean_between.pdf}
@@ -376,14 +471,14 @@ All this criterion shall be adapted to:
 
 \begin{verbatim}
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   0.000   0.000   0.000   6.604   6.929  59.570
+ 0.000   0.000   0.000   6.604   6.929  59.570
 \end{verbatim} 
  
 \end{frame}
 
 
 \begin{frame}
- \frametitle{Modularity}
+ \frametitle{Modularité}
 \begin{center}
   \includegraphics[scale=.3]{plots/chilean_modularity.pdf}
  \end{center}
@@ -399,12 +494,69 @@ All this criterion shall be adapted to:
   69 &  17 &   7 &  13 \\ 
    \hline
 \end{tabular}
-\item very low modularity.
+\item modularité très faible.
  \end{itemize}
 
  
 \end{frame}
 
+
+
+\section{Covariables}
+
+
+\begin{frame}
+ \frametitle{Différents types de covariables}
+ 
+ 
+ \begin{itemize}
+  \item N\oe uds
+  
+  \begin{itemize}
+   \item catégorielle : ethnie, village...
+   \item quantitative : \^age, surface cultivée...
+  \end{itemize}
+
+  \medskip
+  
+  \item Dyades
+  
+  \begin{itemize}
+   \item à partir des covariables sur les n\oe uds : différence d'\^age, \^age du donneur ou \^age du receveur,
+   \item distance géographique entre les exploitations.
+  \end{itemize}
+
+  
+  
+ \end{itemize}
+
+ \end{frame}
+
+\begin{frame}
+\frametitle{Analyse à l'aide des covariables}
+
+\textbf{Interprétation : }
+ 
+ \begin{itemize}
+  \item Covariables au niveau des n\oe uds à mettre en relation avec statistiques propres au n\oe uds (degré, centralité ...)
+  \item Analyser la structuration des covariables au niveau des n\oe uds par rapport aux groupes du SBM ou modularité...
+ \end{itemize}
+
+ 
+ \bigskip
+ 
+ \textbf{Modélisation :}
+ 
+ \begin{itemize}
+  \item Tester l'effet de covariables sur les n\oe uds ou dyades sur la présence d'une ar\^ete,
+  \item Intégration dans un modèle pour analyser au delà de l'effet des covariables (prendre en compte un effet d'échantillonnage pour qu'il ne perturbe pas l'analyse).
+ \end{itemize}
+
+ 
+\end{frame}
+
+
+\end{document}
 
 
 
@@ -678,16 +830,23 @@ X_{ij} \ | \ \{i\in\textcolor{yellow!40!orange}{\bullet},j\in\textcolor{blue!80!
     \end{overlayarea}
     \end{center}
     \medskip
+
     
-    \begin{thebibliography}{99}
-      \begin{scriptsize}
-      \bibitem[NS]{NS} Nowicki, Snijders, JASA, 2001 \newblock Estimation and prediction for
-        stochastic   blockstructures.
-        \textcolor{black}{} 
-      \bibitem[DRP]{DRP}   Daudin,  Picard,   Robin,  Statistics   and
-        Computing, 2008 \newblock A mixture model for random graphs. 
-      \end{scriptsize}
-  \end{thebibliography}
+    \textcolor{blue}{Nowicki, \& Snijders (2001), Daudin et al. (2008)}
+    
+    \bigskip
+    
+\textcolor{blue}{R package: blockmodels.}
+%     
+%     \begin{thebibliography}{99}
+%       \begin{scriptsize}
+%       \bibitem[NS]{NS} Nowicki, Snijders, JASA, 2001 \newblock Estimation and prediction for
+%         stochastic   blockstructures.
+%         \textcolor{black}{} 
+%       \bibitem[DRP]{DRP}   Daudin,  Picard,   Robin,  Statistics   and
+%         Computing, 2008 \newblock A mixture model for random graphs. 
+%       \end{scriptsize}
+%   \end{thebibliography}
 
 \end{frame}
 
@@ -718,7 +877,8 @@ From....
 \begin{itemize}
 \item Find the clusters
 \item Find the number of clusters
-\item Theoretical and practical constraints
+\item Practical implementation
+\item Theoretical results
 \end{itemize}
 \end{block}
 
@@ -743,6 +903,7 @@ From....
 \end{tabular}
 \end{itemize}
 
+
 \end{frame}
 
 
@@ -750,9 +911,11 @@ From....
  \frametitle{Application to the Chilean food web}
  
  \begin{center}
-  \includegraphics[scale=.4]{plots/chilean_sbm_sum.pdf}
+  \includegraphics[scale=.3]{plots/chilean_sbm_sum.pdf}
  \end{center}
 
+ 
+ Another example for food web in \textcolor{blue}{Allesina \& Pascual (2009)}.
 \end{frame}
 
 
@@ -809,11 +972,23 @@ X_{ij} \ | \ \{i\in\textcolor{red}{\bullet},j\in\textcolor{yellow}{\bullet}\}
 \end{align*}
 
 
-\textcolor{blue}{Govaert \& Nadif (2008)}
+\textcolor{blue}{Govaert \& Nadif (2008)} and 
+\textcolor{blue}{R package: blockmodels} as well.
 
 \end{frame}
 
 
+\begin{frame}\frametitle{Incidence matrix point of view}
+
+\centering
+\begin{tabular}{cc}
+ \includegraphics[scale=.2]{plots/lbm/Nested_adja.png}&
+\includegraphics[scale=.2]{plots/lbm/Nested_reordered_adja_without_groups.png}
+ \end{tabular}
+ 
+ 
+
+\end{frame}
 
 
 
@@ -848,7 +1023,7 @@ X_{ij} \ | \ \{i\in\textcolor{red}{\bullet},j\in\textcolor{yellow}{\bullet}\}
  \begin{enumerate}
   \item a count of the number of observed interactions,
   \item a quantity interpreted as the interaction strength,
-  \item several kind of interactions between nodes.
+  \item several kind of interactions between nodes (Multiplex networks).
  \end{enumerate}
 
  \bigskip
@@ -860,53 +1035,110 @@ Natural extensions of SBM and LBM for these three cases:
 \sim^{\text{ind}} \mathcal{P}(\lambda_{\textcolor{yellow!40!orange}{\bullet}\textcolor{blue!80!black}{\bullet}})$,
  \item Gaussian distribution: $X_{ij} \ | \ \{i\in\textcolor{yellow!40!orange}{\bullet},j\in\textcolor{blue!80!black}{\bullet}\}
 \sim^{\text{ind}} \mathcal{N}(\mu_{\textcolor{yellow!40!orange}{\bullet}\textcolor{blue!80!black}{\bullet}},\sigma^2)$,
+\textcolor{blue}{Mariadassou et al. (2010)}
 \item Bivariate Bernoulli: $(X_{ij},X'_{ij} )\ | \ \{i\in\textcolor{yellow!40!orange}{\bullet},j\in\textcolor{blue!80!black}{\bullet}\}
-\sim^{\text{ind}} \mathcal{B}^ 2(\pi_{\textcolor{yellow!40!orange}{\bullet}\textcolor{blue!80!black}{\bullet}})$.
+\sim^{\text{ind}} \mathcal{B}^ 2(\pi_{\textcolor{yellow!40!orange}{\bullet}\textcolor{blue!80!black}{\bullet}})$. \textcolor{blue}{
+Kefi et al. (2016), Barbillon et al. (2016)} 
  \end{enumerate}
+
+ \bigskip
+\textbf{Remark:} a particular case of multiplex network is dynamic network, \textcolor{blue}{Matias \& Miele (2015)}.
  
 \end{frame}
 
 
 \begin{frame}
  \frametitle{Multipartite networks}
+
  
+  
  \begin{itemize}
   \item LBM is for bipartite networks,
   \item When there are more than two functional groups involved in interactions $\Rightarrow$ Multipartite networks.
-  \item Extension of LBM but choice of the number of blocks is more challenging.
+
+  \item  Incidence matrix
+ $$X=\left(
+ \begin{array}{c|c|c}
+  X_1&X_2&X_3
+ \end{array}
+ \right)\,,$$
+ where
+ \begin{itemize}
+  \item $X_1, X_2, X_3$ correspond to the bipartite networks with the same functional groups in rows,
+  \item for instance, $X_1$ is plant-pollinator network, $X_2$ is plant-ant network and $X_3$ is plant-seed dispersers network.
+ \end{itemize}
+
+  \item Extension of LBM quite natural but choice of the number of blocks is more challenging.
   
  \end{itemize}
 
+
  
- 
- 
- 
- 
+
+
 \end{frame}
 
+
+% 
+% \begin{frame}
+% \begin{itemize}
+% \item Valued edges: abundance count, weighted interactions... % ecrire de sbouts de modele
+% \item multiple interactions between nodes,
+% \item multipartite networks: plants, pollinator, seed dispersers, ants...
+% \item Taking into account sampling conditions (through covarites...).
+% \end{itemize}
+% \end{frame}
 
 
 \begin{frame}
-\begin{itemize}
-\item Valued edges: abundance count, weighted interactions... % ecrire de sbouts de modele
-\item multiple interactions between nodes,
-\item multipartite networks: plants, pollinator, seed dispersers, ants...
-\item Taking into account sampling conditions (through covarites...).
-\end{itemize}
+ \frametitle{Taking into account covariates}
+ 
+ Sometimes covariates are available. They may be on:
+ \begin{itemize}
+  \item nodes,
+  \item edges,
+  \item both.
+ \end{itemize}
+
+ \bigskip
+ 
+ 
+ \begin{enumerate}
+  \item They can be used a posteriori to explain blocks inferred by SBM.
+  \item Extension of the SBM which takes into account covariates. Blocks are structure of interaction which is not 
+  explained by covariates !
+ \end{enumerate}
+
+ \bigskip
+ 
+ If covariates are sampling conditions, case 2 may more interesting.
+ 
 \end{frame}
+
 
 
 
 \begin{frame}
  \frametitle{Probabilistic model for networks in a nutshell}
  
+ SBM/LBM
  \begin{itemize}
   \item generative models,
   \item flexible,
-  \item may be interpreted with respect to classical descriptors.
+  \item comprehensive models which can be linked to a lot of classical descriptors.
   
  \end{itemize}
 
+ \bigskip
+ Extension of the binary SBM model are quite natural:
+ 
+ \begin{itemize}
+  \item all the one presented above,
+  \item missing data in the network,
+  \item multi-layers ?
+ \end{itemize}
+
+ 
  
 \end{frame}
 

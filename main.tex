@@ -149,7 +149,7 @@ Les réseaux peuvent \^etre ou non bipartites :  les interactions peuvent avoir 
  Un réseau est constitué de :
  \begin{itemize}
   \item n\oe uds / sommets qui représentent des individus / acteurs qui interagissent ou non,
-  \item liens / ar\^etes / connexions qui représentent les interactions entre les paires de n\oe uds (dyad).
+  \item liens / ar\^etes / connexions qui représentent les interactions entre les paires de n\oe uds (dyade).
   
  \end{itemize}
 
@@ -408,7 +408,7 @@ Critères à adapter aux
 
 \bigskip
 
-\textcolor{blue}{R packages: igraph, sna, vegan.} 
+%\textcolor{blue}{R packages: igraph, sna, vegan.} 
 
 
 \end{frame}
@@ -501,12 +501,97 @@ Critères à adapter aux
 \end{frame}
 
 
+\section{Modèles probabilistes}
+
+
+\begin{frame}
+ \frametitle{Modèles}
+ 
+ 
+ \begin{itemize}
+  \item Stochastic Block Model (SBM) pour les réseaux simples / matrices d'adjacence.
+  \item Latent Block Model (LBM) pour les réseaux bipartites / matrices d'incidence.
+  \item Exponential Random Graph Model pour les réseaux simples.
+ \end{itemize}
+
+\end{frame}
+
+
+ 
+ 
+\begin{frame}\frametitle{Inférence du SBM} 
+
+De...
+
+\centering
+\begin{tabular}{cc}
+ \includegraphics[scale=.2]{plots/sbm/Nested_adja.png}&
+ \includegraphics[scale=.2]{plots/sbm/Nested_graphe_without_colors.png}
+\end{tabular}
+\end{frame}
+
+\begin{frame}\frametitle{Inférence du SBM} 
+
+... à 
+
+\centering
+\begin{tabular}{cc}
+\includegraphics[scale=.2]{plots/sbm/Nested_reordered_adja_with_groups.png}
+\includegraphics[scale=.2]{plots/sbm/Nested_graphe_with_colors.png}
+\end{tabular}
+
+\begin{block}{Travail statistique}
+\begin{itemize}
+\item Identifier les groupes
+\item Trouver le nombre de cluster
+\item Estimation des paramètres
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+
+
+\begin{frame}
+ \frametitle{Application au réseau trophique chilien }
+ 
+ \begin{center}
+  \includegraphics[scale=.3]{plots/chilean_sbm.pdf}
+ \end{center}
+
+ \begin{itemize}
+ \item $7$ groupes/blocs/clusters,
+ \item \begin{tabular}{rrrrrrr}
+  \hline
+  1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+  \hline
+  28 &  15 &  12 &  19 &  12 &  14 &   6 \\ 
+   \hline
+\end{tabular}
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}
+ \frametitle{Application au réseau trophique chilien }
+ 
+ \begin{center}
+  \includegraphics[scale=.3]{plots/chilean_sbm_sum.pdf}
+ \end{center}
+
+ 
+ 
+\end{frame}
+
+
 
 \section{Covariables}
 
 
 \begin{frame}
- \frametitle{Covariables}
+ \frametitle{Différents types de covariables}
  
  
  \begin{itemize}
@@ -517,9 +602,9 @@ Critères à adapter aux
    \item quantitative : \^age, surface cultivée...
   \end{itemize}
 
-  \bigskip
+  \medskip
   
-  \item Dyad
+  \item Dyades
   
   \begin{itemize}
    \item à partir des covariables sur les n\oe uds : différence d'\^age, \^age du donneur ou \^age du receveur,
@@ -528,6 +613,28 @@ Critères à adapter aux
 
   
   
+ \end{itemize}
+
+ \end{frame}
+
+\begin{frame}
+\frametitle{Analyse à l'aide des covariables}
+
+\textbf{Interprétation : }
+ 
+ \begin{itemize}
+  \item Covariables au niveau des n\oe uds à mettre en relation avec statistiques propres au n\oe uds (degré, centralité ...)
+  \item Analyser la structuration des covariables au niveau des n\oe uds par rapport aux groupes du SBM ou modularité...
+ \end{itemize}
+
+ 
+ \bigskip
+ 
+ \textbf{Modélisation :}
+ 
+ \begin{itemize}
+  \item Tester l'effet de covariables sur les n\oe uds ou dyades sur la présence d'une ar\^ete,
+  \item Intégration dans un modèle pour analyser au delà de l'effet des covariables (prendre en compte un effet d'échantillonnage pour qu'il ne perturbe pas l'analyse).
  \end{itemize}
 
  
