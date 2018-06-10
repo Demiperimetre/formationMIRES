@@ -117,3 +117,13 @@ boxplot(degree(Gkar)~cov$faction)
 plot(degree(Gkar)~cov$age)
 ```
 
+
+# Données Kabururu
+
+## À faire
+
+- Charger les listes de liens et créer un objet réseau sous R.
+- Représenter le réseau.
+- Proposer des représentations du réseau qui tiennent compte des covariables sur les nœuds.
+- Étudier les liens entre les degrés (entrant et sortant) et les covariables.
+
