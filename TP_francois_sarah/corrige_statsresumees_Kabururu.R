@@ -30,6 +30,8 @@ deg<-degree(graph)
 deg.in<-degree(graph,mode="in")
 deg.out<-degree(graph,mode="out")
 plot(deg.in~deg.out)
+sunflowerplot(deg.in,deg.out)
+
 boxplot(deg.in~group)
 plot(deg.out~age)
 plot(deg.in~age)
@@ -41,6 +43,8 @@ dredge(degmodel)
 sample.config<-lapply(1:1000,function(x) sample_degseq(deg.out, deg.in, method = "simple.no.multiple"))
 
 centrality<-centr_eigen(graph, directed = TRUE)$vector
+centrality2<-centr_eigen(graph_from_adjacency_matrix(t(as.matrix(get.adjacency(graph))),mode = "directed"), directed = TRUE)$vector
+centrality-centrality2
 
 plot(sapply(1:500, function(x) min(alpha.centrality(graph,alpha=x/1000))))
 alpha<-alpha.centrality(graph,alpha=0.42)
@@ -56,6 +60,7 @@ IM.mod<-cluster_infomap(graph)
 plot(EB.mod,graph,layout = layout_with_mds)
 plot(LE.mod,graph,layout = layout_with_mds)
 plot(IM.mod,graph,layout = layout_with_mds)
+
 
 compare(IM.mod,LE.mod,method="nmi")
 compare(group,LE.mod$mem,method="nmi")
